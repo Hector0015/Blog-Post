@@ -25,9 +25,24 @@ class BlogController extends AbstractController
    
     #[Route("/blog/new", name: 'new_post')]
     public function newPost(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response
-    {
-     return new Response("blog");
-    }
+  {
+    $post = new Post();
+    
+    $formulario = $this->createForm(PostFormType::class, $post);
+
+    $formulario->handleRequest($request);
+
+    if ($formulario->isSubmitted() && $formulario->isValid()) {
+        $post = $formulario->getData();
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($post);
+        $entityManager->flush();
+        return $this->redirectToRoute('new_post', ["codigo" => $post->getId()]);
+    }    return $this->render('blog/new_post.html.twig', array(
+        'form' => $formulario->createView()
+    ));
+}
+    
     
     #[Route("/single_post/{slug}/like", name: 'post_like')]
     public function like(ManagerRegistry $doctrine, $slug): Response

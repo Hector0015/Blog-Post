@@ -15,9 +15,9 @@ class PostFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Title', null, ['attr' => ['class'=>'form-control']])
-            ->add('Content', null, ['attr' => ['class'=>'form-control']])
-            ->add('Image', FileType::class,[
+            ->add('Titulo', null, ['attr' => ['class'=>'form-control']])
+            ->add('Contenido', null, ['attr' => ['class'=>'form-control']])
+            ->add('Imagen', FileType::class,[
                 'mapped' => false,
                 'constraints' => [
                     new File([
@@ -29,7 +29,7 @@ class PostFormType extends AbstractType
                     ])
                 ],
             ])
-            ->add('Send', SubmitType::class, ['attr' => ['class'=>'pull-right btn btn-lg sr-button']]);
+            ->add('Enviar', SubmitType::class, ['attr' => ['class'=>'pull-right btn btn-lg sr-button']]);
         ;
     }
 
