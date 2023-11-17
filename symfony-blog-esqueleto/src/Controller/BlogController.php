@@ -33,6 +33,60 @@ class BlogController extends AbstractController
     $formulario->handleRequest($request);
 
     if ($formulario->isSubmitted() && $formulario->isValid()) {
+        $file = $formulario->get('Image')->getData();
+        if ($file) {
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+
+            // Move the file to the directory where images are stored
+            try {
+
+
+                $file->move(
+                    $this->getParameter('post_image_directory'), $newFilename
+                );
+                /*$filesystem = new Filesystem();
+                 $filesystem->copy(
+                    $this->getParameter('images_directory') . '/'. $newFilename,
+                    $this->getParameter('portfolio_directory') . '/'.  $newFilename, true); */
+
+
+            } catch (FileException $e) {
+                return new Response("Error: " . $e->getMessage());
+            }
+
+
+            // updates the 'file$filename' property to store the PDF file name
+            // instead of its contents
+            $post->setImage($newFilename);
+        }
+       
+        $post = $formulario->getData();
+
+
+        $post->setUser($this->getUser());
+
+
+        $post->setNumLikes(0);
+        $post->setNumComments(0);
+        $post->setNumViews(0);
+
+
+        $post->setSlug($slugger->slug($post->getTitle()));
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($post);
+
+
+        try {
+            $entityManager->flush();
+            return $this->redirectToRoute('blog');
+        } catch (\Exception $e) {
+            return new Response("Error: " . $e->getMessage());
+        }
+    
         $post = $formulario->getData();
         $entityManager = $doctrine->getManager();
         $entityManager->persist($post);
@@ -61,6 +115,28 @@ class BlogController extends AbstractController
             'posts' => $posts,
         ]);
     }
+    
+    #[Route("/blog2", name: 'blog2')]
+    public function index2(ManagerRegistry $doctrine): Response
+    {
+        $repository = $doctrine->getRepository(Post::class);
+        $posts = $repository->findAll();
+        
+        return $this->render('blog/blog2.html.twig', [
+            'posts' => $posts,
+        ]);
+    }
+    #[Route("/blog3", name: 'blog3')]
+    public function index3(ManagerRegistry $doctrine): Response
+    {
+        $repository = $doctrine->getRepository(Post::class);
+        $posts = $repository->findAll();
+        
+        return $this->render('blog/blog3.html.twig', [
+            'posts' => $posts,
+        ]);
+    }
+
 
     #[Route("/single_post/{slug}", name: 'single_post')]
     public function post(ManagerRegistry $doctrine, Request $request, $slug = 'cambiar'): Response
