@@ -1,0 +1,49 @@
+{% for post in posts.results %}
+{{ include ('partials/_post.html.twig', {'post': post}) }}
+{% endfor %}
+{% if posts.hasToPaginate %}
+    <div class="text-left">
+        <ul class="pagination">
+            {% if posts.hasPreviousPage %}
+                <li class="prev"><a href="{{ path('blog', {page: posts.previousPage}) }}" rel="previous"><i class="fa fw fa-long-arrow-left"></i> Previous</a></li>
+            {% else %}
+                <li class="prev disabled"><span><i class="fa fw fa-arrow-left"></i> Previous </span></li>
+            {% endif %}
+
+            {% for i in 1..posts.lastPage %}
+                {% if i == posts.currentPage %}
+                    <li class="active"><span>{{ i }}</span></li>
+                {% else %}
+                    <li><a href="{{ path('blog', {page: i}) }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if posts.hasNextPage %}
+                <li class="next"><a href="{{ path('blog', {page: posts.nextPage}) }}" rel="next">Next <i class="fa fw fa-arrow-right"></i></a></li>
+            {% else %}
+                <li class="next disabled"><span>Next <i class="fa fw fa-arrow-right"></i></span></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+
+<div class="col-xs-12 col-sm-12">
+    <div class="post">
+    <div class="post-heading">
+        <span>{{ post.publishedAt | date('d') }} {{ post.publishedAt | date('F') }}</span>
+        <img class="img-responsive" src="{{ asset('images/blog/' ~ post.image) }}" alt="{{post.title}}">
+    </div>
+    <div class="post-body">
+        <h3><a href="{{ path('single_post', {'slug':post.slug}) }}"><strong>{{post.title}}</strong></a></h3>
+        <hr>
+    <p>{{post.content[:300] ~ '...' }}</p>
+    </div>
+    <div class="post-footer">
+        <a class="btn" href="{{ path('single_post', {'slug':post.slug}) }}">READ MORE...</a>
+        <span>
+        <i class="fa fa-heart sr-icons"></i> {{post.numLikes}}
+        <i class="fa fa-comments sr-icons"></i> {{post.numComments}}
+        </span>
+    </div>
+    </div>
+</div>
