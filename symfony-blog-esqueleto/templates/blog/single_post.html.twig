@@ -37,16 +37,6 @@
       </div>
       </div>
     <!-- End of Full Article -->
-      {{post.title}}
-{{asset('images/blog/' ~ post.image) }}
-{{post.content}}
-{{post.postUser.name}}
-{{post.publishedAt | date('d') }} {{ post.publishedAt | date('F') }}
-{% if not post %}
-<h2>Post not found</h2>
-{% else %}
-resto de plantilla
-{% endif %}
 
     <!-- Comments -->
       <div class="row">
@@ -65,20 +55,4 @@ resto de plantilla
 
    </div>
 <!-- End of Principal Content Start -->
-{% for post in posts %}
-{{ include ('partials/_post.html.twig', {'post': post}) }}
-{% endfor %}
-
-{% for recent in recents %}
-{{ include ('partials/_recent_post.html.twig', {'recent': recent}) }}
-{% endfor %}
-
- {{ include ('partials/_form_comment.html.twig') }}
-
-<li><a href="{{ path('post_like', {slug: post.slug}) }}">LIKE</a> <i class="fa fa-heart sr-icons"></i> {{post.numLikes}}</li>
-
-<li><a class="page-scroll" href="#form">COMMENT</a> <i class="fa fa-comments sr-icons"></i> {{post.numComments}} |</li>
-
-
-
 {% endblock %}

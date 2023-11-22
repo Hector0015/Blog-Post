@@ -113,7 +113,7 @@ public function index8(ManagerRegistry $doctrine, int $page = 1): Response
     public function like(ManagerRegistry $doctrine, $slug): Response
     {
         $repository = $doctrine->getRepository(Post::class);
-        $post = $repository->findOneBy(["slug"=>$slug]);
+        $post = $repository->findOneBy(["Slug"=>$slug]);
         if ($post){
             $post->setNumLikes($post->getNumLikes() + 1);
             $entityManager = $doctrine->getManager();    
@@ -160,12 +160,14 @@ public function index8(ManagerRegistry $doctrine, int $page = 1): Response
 
 
     #[Route("/single_post/{slug}", name: 'single_post')]
-    public function post(ManagerRegistry $doctrine, $slug): Response
+    public function post(ManagerRegistry $doctrine, Request $request, $slug): Response
     {
         
         $repository = $doctrine->getRepository(Post::class);
-        $post = $repository->findOneBy(["slug"=>$slug]);
+
+        $post = $repository->findOneBy(["Slug"=>$slug]);
         $recents = $repository->findRecents();
+        
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
         $form->handleRequest($request);
