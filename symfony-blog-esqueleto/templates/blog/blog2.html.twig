@@ -8,19 +8,21 @@
 
       <!-- Blocks of Posts -->
         <div class="col-xs-12 col-sm-8 row">
+               {% for post in posts %}
            <div class="col-xs-12 col-sm-12">
              <div class="post">
                <div class="post-heading">
-                 <span>6 JANUARY</span>
-                 <!-- img aqui de base de datos-->{{post.image}}
+                 <span>{{ post.publishedAt | date('d') }} {{ post.publishedAt | date('F') }}</span>
+                 <img class="img-responsive" src="{{ asset('images/blog/' ~ post.image) }}" alt="post's picture">
                </div>
                <div class="post-body">
-                 <h3><a href="{{path('single_post')}}"><strong><!-- Aquí el title-->{{post.title}}</strong></a></h3>
+                 <h3><a href="{{path('single_post', {'slug': post.slug})}}"><strong>{{post.title}}</strong></a></h3>
                  <hr>
-                 <p><!--Aqui el content --> {{post.content}}                </p>
+                 <p>{{post.content}} 
+                 </p>
                </div>
                <div class="post-footer">
-                 <a class="btn" href="single_post.html">READ MORE...</a>
+                 <a class="btn" href="single_post">READ MORE...</a>
                  <span>
                  <i class="fa fa-heart sr-icons"></i> 10
                  <i class="fa fa-comments sr-icons"></i> 10
@@ -28,7 +30,7 @@
                </div>
              </div>
            </div>
-           
+           {% endfor %}
               <nav class="text-left">
                 <ul class="pagination">
                   <li class="active"><a href="blog">1</a></li>
@@ -40,6 +42,7 @@
                 </ul>
               </nav>
         </div>
+
       <!-- End of Blog Post -->  
 
       <!-- Side bar -->  
@@ -79,7 +82,7 @@
                  <i class="fa fa-heart sr-icons"></i> 10
                  <i class="fa fa-comments sr-icons"></i> 10
                  </span>
-                 <h4 class="text-left"><a href="{{path('single_post')}}"><strong>Aliquam soluta</strong></a></h4>
+                 <h4 class="text-left"><a href=""><strong>Aliquam soluta</strong></a></h4>
                </div>
              </div>
              <div class="post">
@@ -92,7 +95,7 @@
                  <i class="fa fa-heart sr-icons"></i> 10
                  <i class="fa fa-comments sr-icons"></i> 10
                  </span>
-                 <h4 class="text-left"><a href="{{path('single_post')}}"><strong>Consequuntur</strong></a></h4>
+                 <h4 class="text-left"><a href=""><strong>Consequuntur</strong></a></h4>
                </div>
              </div>
         </div>
