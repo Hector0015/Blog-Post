@@ -24,7 +24,7 @@
         <ul class="list-inline">
           <li>{{ post.publishedAt | date('d') }} {{ post.publishedAt | date('F') }}</li>
           <li><a class="page-scroll" href="#form">COMMENT</a> |</li>
-          <li><a href="{{ path('post_like', {slug: post.slug}) }}">LIKE</a> <i class="fa fa-heart sr-icons"></i> {{post.numLikes}}</li>
+          <li><a href="{{ path('post_like', {slug: post.slug}) }}">LIKE</a> <i class="fa fa-heart sr-icons"></i> {{post.NumLikes}}</li>
         </ul>
       </div>
       <div class="col-xs-12 col-sm-3">

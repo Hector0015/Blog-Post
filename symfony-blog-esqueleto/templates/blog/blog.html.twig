@@ -22,10 +22,10 @@
                  </p>
                </div>
                <div class="post-footer">
-                 <a class="btn" href="single_post">READ MORE...</a>
+                 <a class="btn" href="{{path('single_post', {'slug': post.slug})}}">READ MORE...</a>
                  <span>
-                 <i class="fa fa-heart sr-icons"></i> 10
-                 <i class="fa fa-comments sr-icons"></i> 10
+                 <i class="fa fa-heart sr-icons"></i> {{post.NumLikes}}
+                 <i class="fa fa-comments sr-icons"></i> {{post.NumComments}}
                  </span>
                </div>
              </div>
